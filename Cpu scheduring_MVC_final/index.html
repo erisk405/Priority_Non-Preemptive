@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.7.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+
+</head>
+<body>
+    <div class="heading">
+        <div class="container-header">
+            <div class="content">
+                <h1><span>Priority</span> non-preemptive</h1>
+            </div>
+            <div class="wrap-menu">
+                <div class="detail-Controller">
+                    <ul>
+                        <li><span>Clock :</span><span id="Clock">11110</span></li>
+                        <div class="wrapper">
+                            <li><span>CPU Process :</span><span id="Current-CPU-Process"></span></li>
+                            <li><span>I/O Process :</span><span id="Current-IO-Process"></span></li>
+                            <li><span>AVG Waitting :</span><span id="Current-AVG-Waiting"></span></li>
+                            <li><span>AVG Turnaround :</span><span id="Current-AVG-Turnaround"></span></li>
+                            <li><span>Memory :</span> 0%</li>
+                            <li><span>Starvation :</span> 30 second</li>
+                        </div>
+                    </ul>
+                </div>
+                <div class="menu" id="menu">
+                    <a href="#"><span><i class="ri-cpu-line"></span></i>View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="site">
+        <div class="main-left">
+            <div class="head-main-left">
+                <h3>Job queue</h3>
+                <ul class="manage">
+                    <li class="add"><a href="#"><i class="ri-add-line"></i>Add Process</a></li>
+                    <li class="Terminate"><a href="#"><i class="ri-subtract-line"></i>Terminate</a></li>
+                    <li class="reset"><a href="#"><i class="ri-refresh-line"></i>Reset</a></li>
+                </ul>
+            </div>
+            <div class="title-info" id="job-table">
+                <div class="table">
+                    <div class="header-table">
+                        <ul>
+                            <li>Process Name</li>
+                            <li>Arrival Time</li>
+                            <li>Priority</li>
+                            <li>Burst Time</li>
+                            <li>Waiting Time</li>
+                            <li>Memory</li>
+                            <li>Status Process</li>
+                        </ul>
+                    </div>
+                    <div class="data-table">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-middle">
+            <div class="box-ready-queue">
+                <div class="box-ready-header">
+                    <h3>I/O Queue</h3>
+                </div>
+                <div class="table">
+                    <div class="header-table">
+                        <ul>
+                            <li>Process Name</li>
+                            <li>Arrival Time</li>
+                            <li>Priority</li>
+                        </ul>
+                    </div>
+                    <div class="data-table">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-right">
+            <div class="box-ready-queue">
+                <div class="box-ready-header">
+                    <h3>Ready Queue</h3>
+                </div>
+                <div class="table">
+                    <div class="header-table">
+                        <ul>
+                            <li>Process Name</li>
+                            <li>Arrival Time</li>
+                            <li>Priority</li>
+                        </ul>
+                    </div>
+                    <div class="data-table">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-left-bottom">
+            <div class="box-terminate">
+                <div class="box-ready-header">
+                    <h3>Terminate</h3>
+                </div>
+                <div class="table">
+                    <div class="header-table">
+                        <ul>
+                            <li>Process Name</li>
+                            <li>Arrival Time</li>
+                            <li>Priority</li>
+                            <li>Burst Time</li>
+                            <li>Waiting Time</li>
+                            <li>Turnaround Time</li>
+                            <li>I/O Time</li>
+                            <li>Respond Time</li>
+                            <li>Status Process</li>
+                        </ul>
+                    </div>
+                    <div class="data-table">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-right-bottom">
+            <div class="box-ready-queue">
+                <div class="box-ready-header">
+                    <h3>I/O Device</h3>
+                    <ul class="manage">
+                        <li class="add"><a><i class="ri-add-line"></i>Add</a></li>
+                        <li class="delete"><a><i class="ri-subtract-line"></i>Delete</a></li>
+                    </ul>
+                </div>
+                <div class="table">
+                    <div class="header-table">
+                        <ul>
+                            <li>Process Name</li>
+                            <li>Running Time</li>
+                            <li>Respond Time</li>
+                            <li>Status</li>
+                        </ul>
+                    </div>
+                    <div class="data-table">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script src="./notify.js"></script>
+    <script type="module" src="./Controller.js"></script>
+    
+</body>
+</html>

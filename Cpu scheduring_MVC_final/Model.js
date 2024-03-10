@@ -10,11 +10,14 @@ class Model {
     this.maxMemory = 5120;
     this.memory = 0;
     this.intervalId = null;
+    this.starvation = 30;
     this.StartTimeClock();
   }
   async StartTimeClock() {
     setInterval(() => {
       this.time++;
+      this.setReadyQueue();
+      this.CheckStarvation();
     }, 1000)
   }
 
@@ -58,21 +61,17 @@ class Model {
     }
   }
 
-  setStatus(processName, newStatus) {
-    const processTarget = this.processes.find(process => process.processName === processName);
-    if (processTarget) {
-      processTarget.status = newStatus;
-    } else {
-      console.error(`Process with name ${processName} not found.`);
-    }
-  }
-
   setReadyQueue() {
     this.ReadyQueue = []; // clear ข้อมูลแล้ว นำเข้าใหม่
     this.processes.forEach(process => {
       if (process.status === "Ready") {
         this.ReadyQueue.push(process);
-        this.ReadyQueue.sort((a, b) => a.priority - b.priority);
+        this.ReadyQueue.sort((a, b) => {
+          if (a.priority === b.priority) {
+            return a.processName.localeCompare(b.processName); // เรียงลำดับตาม processName แบบ dictionary order
+          }
+          return a.priority - b.priority;
+        });        
       }
     });
   }
@@ -84,14 +83,14 @@ class Model {
       console.log(`There is already a process running: ${runningProcess.processName}`);
       this.ReadyQueue.forEach(process => {
         if (process.status !== "Waiting") {
-          this.setStatus(process.processName, "Ready");
+          process.status = "Ready";
         }
       });
     } else {
       // ทำการตั้งสถานะของ process ที่อยู่ใน ReadyQueue เป็น "Running"
       const nextProcess = this.ReadyQueue.shift();
       if (nextProcess) {
-        this.setStatus(nextProcess.processName, "Running");
+        nextProcess.status = "Running";
         console.log(`Process ${nextProcess.processName} is now running.`);
       } else {
         console.log("No processes in the ReadyQueue to run.");
@@ -176,6 +175,13 @@ class Model {
 
     return { runningProcesses, TurnaroundTime };
 
+  }
+  CheckStarvation(){
+    this.processes.forEach(data =>{
+      if((data.waitingTime % this.starvation) == 0 && data.status !=="Running" && data.priority!==0 ){
+        data.priority -= 1;
+      }
+    })
   }
 
 

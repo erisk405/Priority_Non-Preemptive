@@ -22,7 +22,7 @@ class Controller {
 
     async addProcess(processName) {
       let Memory_gens = this.model.getRemaining_memory();
-      const process = {
+      const process = { 
         processName: processName,
         arrivalTime: this.model.time,
         priority:  RandomNum(0,9),
@@ -38,7 +38,6 @@ class Controller {
       this.model.addProcess(process);
       this.UpdateControlblock();
       await new Promise(resolve => setTimeout(resolve, 1000)); // รอ 1 วินาที
-      this.checkProcessPriority();
     }
 
 
@@ -53,10 +52,7 @@ class Controller {
       this.view.UpdatedisplayIOdevice(this.model.getIODevice());
       // อัพเดท Control Block
       this.UpdateControlblock();
-    }
-
-    checkProcessPriority() {
-      this.view.displayReadyQueue(model.getReadyQueue());
+      // อัพเดท IoQeueu
       this.view.displayIOqueue(model.getWaitingProcesses());
     }
 
@@ -66,7 +62,6 @@ class Controller {
     async addIOdevice(){
       this.model.addIODevice();
       this.updateView() 
-      this.checkProcessPriority();
       this.UpdateControlblock() // update Controlblock
     }
 
@@ -74,7 +69,6 @@ class Controller {
       this.model.DeleteIOdevice();
       this.view.updatedisplayJobData(this.model.getProcesses());
       this.view.UpdatedisplayReadyQueue(this.model.getIODevice());
-      this.checkProcessPriority();
       this.UpdateControlblock() // update Controlblock
     }
 
@@ -83,7 +77,6 @@ class Controller {
         const {runningProcesses,TurnaroundTime} = await this.model.Terminate();
         this.view.displayTerminate(runningProcesses[0],TurnaroundTime);
         this.view.updatedisplayJobData(this.model.getProcesses());
-        this.checkProcessPriority(); // อัพเดทการแสดงผลของ queue
         this.UpdateControlblock();
       }catch(error){
         notyf.error('There are no processes using the CPU.');
@@ -116,7 +109,6 @@ class Controller {
   let process_num = 1;
   Addprocess.addEventListener('click',() =>{
     Control.addProcess(`Process`+process_num);
-    console.log(model.getProcesses());
     process_num++;
   })
   Terminate.addEventListener('click', () =>{

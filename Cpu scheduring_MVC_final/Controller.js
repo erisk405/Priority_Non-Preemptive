@@ -148,3 +148,8 @@ class Controller {
     menu.classList.toggle('active');
   });
   
+
+  const reset = document.querySelector('.reset');
+  reset.addEventListener('click',() =>{
+    window.location.reload();
+  })

@@ -16,7 +16,6 @@ class Model {
   async StartTimeClock() {
     setInterval(() => {
       this.time++;
-      this.setReadyQueue();
       this.CheckStarvation();
     }, 1000)
   }
@@ -27,6 +26,7 @@ class Model {
       this.ReadyQueue.push(process);
       this.startProcess();
       this.ManangeStatus();
+      console.log(this.processes);
     } else {
       notyf.open({
         type: 'warning',
@@ -36,7 +36,6 @@ class Model {
     }
 
     this.getAllmemory();
-    this.UpdateControlblock();
   }
 
   startProcess() {
@@ -52,9 +51,7 @@ class Model {
             process.RespondTime++; // เพิ่ม respond-Time ทุกๆ 1 วินาที
           } else if (process.statusIO === 'Running') {
             process.RunningTime++; // เพิ่ม Running-Time ทุกๆ 1 วินาที
-          } else {
-
-          }
+          } 
         });
         // หลังจากทำการอัพเดทสถานะเสร็จแล้ว ส่งข้อมูลไปยัง View เพื่อแสดงผล
       }, 1000); // นับเวลาทุกๆ 1 วินาที
@@ -65,15 +62,15 @@ class Model {
     this.ReadyQueue = []; // clear ข้อมูลแล้ว นำเข้าใหม่
     this.processes.forEach(process => {
       if (process.status === "Ready") {
-        this.ReadyQueue.push(process);
-        this.ReadyQueue.sort((a, b) => {
-          if (a.priority === b.priority) {
-            return a.processName.localeCompare(b.processName); // เรียงลำดับตาม processName แบบ dictionary order
-          }
-          return a.priority - b.priority;
-        });        
+        this.ReadyQueue.push(process);     
       }
     });
+    this.ReadyQueue.sort((a, b) => {
+      if (a.priority === b.priority) {
+        return a.processName.localeCompare(b.processName); // เรียงลำดับตาม processName แบบ dictionary order
+      }
+      return a.priority - b.priority;
+    });   
   }
 
   ManangeStatus() {
@@ -164,8 +161,8 @@ class Model {
     this.AllTurnAround += TurnaroundTime;
     this.AllWaiting += runningProcess.waitingTime;
 
-    const index = this.processes.findIndex(process => process === runningProcess);
-    if (index !== -1) {
+    const index = this.processes.findIndex(process => process === runningProcess); //ถ้าไม่พบจะคืนค่า -1
+    if (index !== -1) {   
       this.processes.splice(index, 1);
     }
     let NextRunning = this.ReadyQueue.shift();
@@ -180,6 +177,7 @@ class Model {
     this.processes.forEach(data =>{
       if((data.waitingTime % this.starvation) == 0 && data.status !=="Running" && data.priority!==0 ){
         data.priority -= 1;
+        this.setReadyQueue();
       }
     })
   }
@@ -220,10 +218,6 @@ class Model {
     return this.ReadyQueue;
   }
 
-  getProcess(processName) {
-    return this.processes.find(process => process.processName === processName);
-  }
-
   getRunningProcesses() {
     return this.processes.filter(process => process.status === 'Running');
   }
@@ -245,7 +239,7 @@ class Model {
   }
 
   getAllmemory() {
-    let AllSumMemory = this.processes.reduce((totalMemory, item) => {
+    let AllSumMemory = this.processes.reduce((totalMemory, item) => { // totalMemory จะเริ่มต้นที่ 0
       return totalMemory + item.memory_usage;
     }, 0);
     return AllSumMemory;

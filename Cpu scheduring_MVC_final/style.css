@@ -118,6 +118,9 @@ body{
 }
 .container-header .content{
     position: relative;
+    background-color: #000000;
+    padding-right: 10px;
+    z-index: 99999;
 }
 .container-header .content h1{
     font-size: calc(1vw + 1vh);
@@ -314,8 +317,9 @@ body{
     align-items: center;
 }
 .wrap-menu .menu{
-    position: relative;
-    padding-left: 40px;
+    position: fixed;
+    right: 0px;
+    padding:0 20px;
     background-color: var(--background-base);
 }
 
@@ -323,13 +327,13 @@ body{
 .detail-Controller{
     visibility: hidden;
     opacity: 0;
-    transform: translateX(10%);
+    transform: translateX(0);
     transition: all .8s ease-in-out;
 }
 .detail-Controller.active{
     visibility: visible;
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(-10%);
     transition: all .8s ease-in-out;
 }
 
@@ -356,6 +360,9 @@ body{
         border-radius: 10px;
         padding: 5px;
     }
+}
+
+@media screen and (max-width:1200px) {
     .container-header .content h1{
         display: none;
     }

@@ -62,22 +62,18 @@ class Controller {
     async addIOdevice(){
       this.model.addIODevice();
       this.updateView() 
-      this.UpdateControlblock() // update Controlblock
     }
 
     async DeleteIOdevice(){
       this.model.DeleteIOdevice();
-      this.view.updatedisplayJobData(this.model.getProcesses());
-      this.view.UpdatedisplayReadyQueue(this.model.getIODevice());
-      this.UpdateControlblock() // update Controlblock
+      this.updateView() 
     }
 
     async Terminate(){
       try {
         const {runningProcesses,TurnaroundTime} = await this.model.Terminate();
         this.view.displayTerminate(runningProcesses[0],TurnaroundTime);
-        this.view.updatedisplayJobData(this.model.getProcesses());
-        this.UpdateControlblock();
+        this.updateView();
       }catch(error){
         notyf.error('There are no processes using the CPU.');
       }
@@ -108,7 +104,7 @@ class Controller {
   const Terminate  = head_main_left.querySelector('.Terminate');
   let process_num = 1;
   Addprocess.addEventListener('click',() =>{
-    Control.addProcess(`Process`+process_num);
+    Control.addProcess(`Process `+process_num);
     process_num++;
   })
   Terminate.addEventListener('click', () =>{

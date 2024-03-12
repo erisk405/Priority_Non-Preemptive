@@ -175,7 +175,7 @@ class Model {
   }
   CheckStarvation(){
     this.processes.forEach(data =>{
-      if((data.waitingTime % this.starvation) == 0 && data.status !=="Running" && data.priority!==0 ){
+      if((data.waitingTime % this.starvation) == 0 && (data.status !=="Running" && data.priority!==0) && data.waitingTime !==0){
         data.priority -= 1;
         this.setReadyQueue();
       }

@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/83743635-9475-4dc6-a20f-b8a03900bcaa)
+
 Url:https://erisk405.github.io/Priority_Non-Preemptive/Cpu%20scheduring_MVC_final/#
 
 
